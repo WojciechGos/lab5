@@ -1,64 +1,89 @@
-import {Text, View, Pressable, TextInput} from "react-native";
-import { StyleSheet } from "react-native";
-import { useState } from "react";
-import { useEffect } from "react";
-const List = ({ route, navigation })=>{
-    const [list, setList] = useState([{id:1, name:"PS5", price:"123", amount:12}, {id:2, name:"zakupy" ,price:"123", amount:12}, {id:3, name:"123",  price:"123", amount:12}])
+import { Text, View, Pressable, TextInput } from "react-native"
+import { StyleSheet } from "react-native"
+import { useState } from "react"
+import { useEffect } from "react"
 
-    const {id, name, price, amount} = route.params
+import RNFS from "react-native-fs"
 
-    useEffect(()=>{
-        setList(prev => [...prev, {id: id, name:name, price:price, amount:amount}])
-    },[name])
+const List = ({ route, navigation }) => {
+    const [imagePath, setImagePath] = useState(null)
+
+    const downloadImage = async (imageUrl) => {
+        const localFile = `${RNFS.DocumentDirectoryPath}/downloadedImage.jpg`
+        const options = {
+            fromUrl: imageUrl,
+            toFile: localFile,
+        }
+        try {
+            await RNFS.downloadFile(options).promise
+            console.log(`image downloaded to ${localFile}`)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    // downloadImage(
+    //     "https://www.google.com/url?sa=i&url=https%3A%2F%2Ff7dobry.com%2Fpsy-w-helmach-z-arbuza%2F&psig=AOvVaw2vTXnlSBDCc06H3K_rWy3j&ust=1702414208205000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCPD7s6OhiIMDFQAAAAAdAAAAABAI"
+    // )
+
+    useEffect(() => {
+        // Load image from local file system
+        loadImage()
+    }, [])
+
+    const loadImage = async () => {
+        try {
+            // Specify the path to the image file on the local device
+            const path = RNFS.DocumentDirectoryPath + "/your_image_filename.jpg"
+
+            // Check if the file exists
+            const fileExists = await RNFS.exists(path)
+
+            if (fileExists) {
+                // Set the image path to display the image
+                setImagePath("file://" + path)
+            } else {
+                console.log("Image not found")
+            }
+        } catch (error) {
+            console.error("Error loading image:", error)
+        }
+    }
     return (
         <View>
-
-            {
-                list.map(listItem=>(
-                    <ListItem name={listItem.name} price={listItem.price} amount={listItem.amount} key={listItem.id}/>
-                ))
-            }
-
+            <Text>cos</Text>
         </View>
     )
 }
 
-const ListItem = ({name, price, amount})=>{
-    return (
-    <>
-        <Text>
-            {name}
-        </Text>
-                <Text>
-                {price}
-            </Text>
-                    <Text>
-                    {amount}
-                </Text>
+// const ListItem = ({name, price, amount})=>{
+//     return (
+//     <>
+//         <Text>
+//             {name}
+//         </Text>
+//                 <Text>
+//                 {price}
+//             </Text>
+//                     <Text>
+//                     {amount}
+//                 </Text>
 
-    </>
-        
-    )
-}
+//     </>
 
-
-
+//     )
+// }
 
 export const styles = StyleSheet.create({
-    registerBtn: {
-        padding: 25,
-        backgroundColor: '#000',
-        width: 300,
-        marginBottom: 25
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
-    registerText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontSize: 25
-    }
-    ,
-
+    image: {
+        width: 200,
+        height: 200,
+        resizeMode: "cover",
+    },
 })
 
 export default List
