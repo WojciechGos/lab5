@@ -5,30 +5,30 @@ import { useEffect } from "react"
 
 import RNFS from "react-native-fs"
 
-const List = ({ route, navigation }) => {
-    const [imagePath, setImagePath] = useState(null)
+const List = () => {
+    // const [imagePath, setImagePath] = useState(null)
 
-    const downloadImage = async (imageUrl) => {
-        const localFile = `${RNFS.DocumentDirectoryPath}/downloadedImage.jpg`
-        const options = {
-            fromUrl: imageUrl,
-            toFile: localFile,
-        }
-        try {
-            await RNFS.downloadFile(options).promise
-            console.log(`image downloaded to ${localFile}`)
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const downloadImage = async (imageUrl) => {
+    //     const localFile = `${RNFS.DocumentDirectoryPath}/downloadedImage.jpg`
+    //     const options = {
+    //         fromUrl: imageUrl,
+    //         toFile: localFile,
+    //     }
+    //     try {
+    //         await RNFS.downloadFile(options).promise
+    //         console.log(`image downloaded to ${localFile}`)
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
     // downloadImage(
     //     "https://www.google.com/url?sa=i&url=https%3A%2F%2Ff7dobry.com%2Fpsy-w-helmach-z-arbuza%2F&psig=AOvVaw2vTXnlSBDCc06H3K_rWy3j&ust=1702414208205000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCPD7s6OhiIMDFQAAAAAdAAAAABAI"
     // )
 
-    useEffect(() => {
-        // Load image from local file system
-        loadImage()
-    }, [])
+    // useEffect(() => {
+    //     // Load image from local file system
+    //     loadImage()
+    // }, [])
 
     const loadImage = async () => {
         try {
